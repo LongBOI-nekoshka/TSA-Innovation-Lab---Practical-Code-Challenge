@@ -1,0 +1,24 @@
+services:
+  postgresDB:
+    image: postgres:14.3
+    container_name: postgresDB
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: changeme
+      POSTGRES_USER: changeme
+      POSTGRES_DB: Contact
+    ports: 
+      - 5432:5432
+    volumes:
+      - ./postgresql:/var/lib/postgresql
+  app:
+    container_name: golangApp
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5000:8080
+    environment:
+      DB_HOST: postgresDB
+
